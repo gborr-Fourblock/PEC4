@@ -79,3 +79,27 @@ print("\nThe number of people not at all concerned after Covid is {} \n".format(
 print("\nThe number of people not very concerned after Covid is {} \n".format(int(despues.iloc[1])))
 print("\nThe number of people somewhat concerned after Covid is {} \n".format(int(despues.iloc[2])))
 print("\nThe number of people very concerned after Covid is {} \n".format(int(despues.iloc[3])))
+
+def concernsafterbefore1(datafile):
+  concern_polls2 = datafile.loc[datafile['pollster'].isin(listas)]
+  despues = concern_polls2[concern_polls2['end_date']>'2020-09-01']
+  antes = concern_polls2[concern_polls2['end_date']<='2020-09-01']
+
+  fig = matplotlib.pyplot.gcf()
+  fig.set_size_inches(50, 50)
+  fig, (ax, ax2) = plt.subplots(ncols=2, sharey=True, sharex=True)
+  for i in ax.patches:
+      totals.append(i.get_width())
+  suma1 = antes['very'] + antes['somewhat'] + antes['not_very'] + antes['not_at_all']
+  suma2 = despues['very'] + despues['somewhat'] + despues['not_very'] + despues['not_at_all']
+  antes1 = antes[['very', 'somewhat', "not_very", "not_at_all"]].sum()/suma1.sum()*100
+  despues1 = despues[['very', 'somewhat', "not_very", "not_at_all"]].sum()/suma2.sum()*100
+  antes1.plot(kind='barh', title='Concerns before Covid (%)', ax=ax, figsize=(10,7),
+                                                  color="indigo", fontsize=13)
+  despues1.plot(kind='barh', title="Concerns after Covid (%)", ax=ax2, color="red")
+
+  plt.show()
+  return antes1, despues1
+
+
+antes1, despues1 = concernsafterbefore1(concern_polls2)
