@@ -10,7 +10,7 @@ concern_polls = dataconcern("data/covid_concern_polls.csv")
 approval_polls = dataapproval("data/covid_approval_polls.csv")
 
 concern_polls2 = concern_polls[concern_polls.text.str.contains('coronavirus', case=False)]
-approval_polls2 = approval_polls[approval_polls['text'].str.contains('Trump', case=False)]
+approval_polls2 = approval_polls[approval_polls['text'].str.contains(r'^(?=.*Trump)(?=.*coronavirus)')]
 
 # Creo una función para realizar el gráfico de barras que muestre la aprobación o desaprobación
 # con las políticas Covid de Trump
